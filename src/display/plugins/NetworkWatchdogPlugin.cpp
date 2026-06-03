@@ -18,9 +18,11 @@ void NetworkWatchdogPlugin::setup(Controller *c, PluginManager *pluginManager) {
         _lastProbe = now;
         _lastStats = now;
         _stage = 0;
+        ESP_LOGI(LOG_TAG, "Watchdog started (wifi connected)");
     });
     pluginManager->on("controller:wifi:disconnect", [this](Event const &) {
-        _probe.stop();
+        ESP_LOGI(LOG_TAG, "Watchdog stopped (wifi disconnected)");
+        // _probe.stop();
         _socketReady = false;
     });
 }

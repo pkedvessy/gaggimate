@@ -293,14 +293,15 @@ void WebUIPlugin::start() {
 void WebUIPlugin::stop() {
     if (!serverRunning)
         return;
-    server.end();
     ws.closeAll();
+    server.end();
     if (dnsServer != nullptr) {
         dnsServer->stop();
         delete dnsServer;
         dnsServer = nullptr;
     }
     serverRunning = false;
+    ESP_LOGI("WebUIPlugin", "WebUIPlugin stopped (wifi disconnected)");
 }
 
 void WebUIPlugin::handleWebSocketData(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg,
