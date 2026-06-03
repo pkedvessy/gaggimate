@@ -20,6 +20,7 @@
 #include <display/plugins/HomekitPlugin.h>
 #include <display/plugins/LedControlPlugin.h>
 #include <display/plugins/MQTTPlugin.h>
+#include <display/plugins/NetworkWatchdogPlugin.h>
 #include <display/plugins/ShotHistoryPlugin.h>
 #include <display/plugins/SmartGrindPlugin.h>
 #include <display/plugins/WebUIPlugin.h>
@@ -79,6 +80,7 @@ void Controller::setup() {
         pluginManager->registerPlugin(new MQTTPlugin());
     }
     pluginManager->registerPlugin(new WebUIPlugin());
+    pluginManager->registerPlugin(new NetworkWatchdogPlugin());
     pluginManager->registerPlugin(&ShotHistory);
     pluginManager->registerPlugin(&BLEScales);
     pluginManager->registerPlugin(new LedControlPlugin());
