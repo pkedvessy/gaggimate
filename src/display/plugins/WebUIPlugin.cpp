@@ -50,7 +50,13 @@ void WebUIPlugin::setup(Controller *_controller, PluginManager *_pluginManager) 
         apMode = event.getInt("AP");
         start();
     });
-    pluginManager->on("controller:wifi:disconnect", [this](Event const &) { stop(); });
+    // Intentionally do NOT stop the server on a WiFi disconnect: the listen
+    // socket survives a reconnect, and tearing it down only to rebind moments
+    // later races AsyncTCP's async close (bind: -8) and churns sockets in the
+    // recovery path. The server keeps listening; clients reconnect on their own.
+    pluginManager->on("controller:wifi:disconnect", [this](Event const &) {
+        ws.cleanupClients(); // drop dead websocket clients; keep the listener up
+    });
     pluginManager->on("controller:ready", [this](Event const &) {
         ota->setControllerVersion(controller->getSystemInfo().version);
         ota->init(controller->getClientController()->getClient());
@@ -277,7 +283,13 @@ void WebUIPlugin::setupServer() {
 }
 
 void WebUIPlugin::start() {
-    stop();
+    if (serverRunning) {
+        // Already listening. The 0.0.0.0:80 listen socket survives a WiFi
+        // reconnect, so re-running end()+begin() only races AsyncTCP's async
+        // socket close and fails to rebind ("bind: -8, port in use"). A transient
+        // STA reconnect needs nothing done here.
+        return;
+    }
     server.begin();
     ESP_LOGI("WebUIPlugin", "Started webserver");
     if (apMode) {
