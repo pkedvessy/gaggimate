@@ -373,7 +373,7 @@ export function PluginCard({
         )}
       </div>
 
-      {gearpumpAddon && (
+      {gearpumpAddon.value && (
         <div className='bg-base-200 rounded-lg p-4'>
           <div className='flex items-center justify-between'>
             <span className='text-xl font-medium'>BLDC Pump Settings</span>
