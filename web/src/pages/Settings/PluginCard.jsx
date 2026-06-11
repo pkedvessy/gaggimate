@@ -5,7 +5,7 @@ import { faCalendarDays } from '@fortawesome/free-solid-svg-icons/faCalendarDays
 import { computed } from '@preact/signals';
 import { machine } from '../../services/ApiService.js';
 
-const gearpumpAddon = computed(() => machine.value.status.gearpumpAddon);
+const gearpumpAddon = computed(() => machine.value.capabilities.gearpumpAddon);
 
 export function PluginCard({
   formData,
