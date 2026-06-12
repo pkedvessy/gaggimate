@@ -107,8 +107,8 @@ void WebUIPlugin::setup(Controller *_controller, PluginManager *_pluginManager) 
 
 void WebUIPlugin::tick() {
     if (updating) {
-        if (!is_task_healthy(eTaskGetState(runUpdateTaskHandle))) {
-            xTaskCreatePinnedToCore(runUpdateTask, "WebUIPlugin::runUpdate", configMINIMAL_STACK_SIZE * 8, this, 1,
+        if (!is_task_healthy(eTaskGetState(runUpdateTaskHandle)) && !is_task_healthy(eTaskGetState(checkUpdateTaskHandle))) {
+            xTaskCreatePinnedToCore(runUpdateTask, "WebUIPlugin::runUpdate", configMINIMAL_STACK_SIZE * 10, this, 1,
                                     &runUpdateTaskHandle, 0);
         }
     }
@@ -117,8 +117,8 @@ void WebUIPlugin::tick() {
     }
     const unsigned long now = millis();
     if (!controller->isActive() && (lastUpdateCheck == 0 || now - lastUpdateCheck > UPDATE_CHECK_INTERVAL) && !updating) {
-        if (!is_task_healthy(eTaskGetState(checkUpdateTaskHandle))) {
-            xTaskCreatePinnedToCore(checkUpdateTask, "WebUIPlugin::checkUpdate", configMINIMAL_STACK_SIZE * 8, this, 1,
+        if (!is_task_healthy(eTaskGetState(checkUpdateTaskHandle)) && !is_task_healthy(eTaskGetState(runUpdateTaskHandle))) {
+            xTaskCreatePinnedToCore(checkUpdateTask, "WebUIPlugin::checkUpdate", configMINIMAL_STACK_SIZE * 10, this, 1,
                                     &checkUpdateTaskHandle, 0);
         }
     }
