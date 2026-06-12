@@ -510,15 +510,6 @@ void Controller::loop() {
     if (comms.isReadyForConnection() && comms.connectToServer()) {
         waitingForController = false;
     }
-
-    // Keepalive: updateControl() only sends control deltas now, so a steady-state
-    // session would otherwise go silent. A periodic ping keeps the controller's
-    // connection watchdog fed (sent in all states, including error). Skip it for
-    // an incompatible controller -- it can't parse the frame anyway.
-    if (comms.isConnected() && !systemInfo.protocolMismatch && now - lastPing >= PING_INTERVAL) {
-        comms.sendPing();
-        lastPing = now;
-    }
 }
 
 void Controller::loopLogic() {
@@ -583,6 +574,17 @@ void Controller::loopLogic() {
 
 void Controller::loopControl() {
     if (initialized) {
+        unsigned long now = millis();
+
+        // Keepalive: updateControl() only sends control deltas now, so a steady-state
+        // session would otherwise go silent. A periodic ping keeps the controller's
+        // connection watchdog fed (sent in all states, including error). Skip it for
+        // an incompatible controller -- it can't parse the frame anyway.
+        if (comms.isConnected() && !systemInfo.protocolMismatch && now - lastPing >= PING_INTERVAL) {
+            comms.sendPing();
+            lastPing = now;
+        }
+
         updateControl();
     }
 }
