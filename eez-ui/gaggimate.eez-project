@@ -13534,7 +13534,7 @@
                   "image": "indicator-small",
                   "pivotX": -233,
                   "pivotY": 0,
-                  "value": "boiler.target_pressure",
+                  "value": "boiler.target_pressure * 10",
                   "valueType": "expression"
                 },
                 {
@@ -13546,7 +13546,7 @@
                   "widthModifier": 0,
                   "startValue": 0,
                   "startValueType": "literal",
-                  "endValue": "boiler.current_pressure",
+                  "endValue": "boiler.current_pressure * 10",
                   "endValueType": "expression"
                 }
               ],
@@ -13560,7 +13560,7 @@
               "majorTickLength": 0,
               "majorTickColor": "#000000",
               "labelGap": 0,
-              "scaleMin": 16,
+              "scaleMin": 160,
               "scaleMax": 0,
               "scaleAngleRange": 120,
               "scaleRotation": 300
@@ -13873,7 +13873,7 @@
           },
           "group": "",
           "groupIndex": 0,
-          "text": "String.format(\"%.0f\", boiler.current_pressure) + \" bar\"",
+          "text": "String.format(\"%.1f\", boiler.current_pressure) + \" bar\"",
           "textType": "expression",
           "longMode": "WRAP",
           "recolor": false,

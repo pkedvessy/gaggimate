@@ -5767,7 +5767,7 @@ void create_user_widget_dials(lv_obj_t *parent_obj, void *flowState, int startWi
                 lv_meter_set_scale_ticks(obj, scale, 25, 10, 25,
                                          lv_color_hex(theme_colors[eez_flow_get_selected_theme_index()][5]));
                 lv_meter_set_scale_major_ticks(obj, scale, 0, 0, 0, lv_color_hex(0x000000), 0);
-                lv_meter_set_scale_range(obj, scale, 16, 0, 120, 300);
+                lv_meter_set_scale_range(obj, scale, 160, 0, 120, 300);
                 {
                     state->indicator4 = lv_meter_add_needle_img(obj, scale, &img_indicator_small, -233, 0);
                 }
