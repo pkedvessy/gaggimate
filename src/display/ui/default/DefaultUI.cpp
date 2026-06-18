@@ -256,6 +256,16 @@ void DefaultUI::loop() {
         handleScreenChange();
         currentScreen = static_cast<ScreensEnum>(eez_flow_get_current_screen());
         effect_mgr.evaluate_all();
+
+        if (currentScreen == SCREEN_ID_STANDBY_SCREEN) {
+            if (standbyEnterTime > 0) {
+                const Settings &settings = controller->getSettings();
+                const unsigned long now = millis();
+                if (now - standbyEnterTime >= settings.getStandbyBrightnessTimeout()) {
+                    setBrightness(settings.getStandbyBrightness());
+                }
+            }
+        }
     }
 
     ui_tick();
@@ -285,9 +295,9 @@ void DefaultUI::loopProfiles() {
 
 void DefaultUI::changeScreen(ScreensEnum screen) {
     targetScreen = screen;
+    brewScreenState = BrewScreenState::Brew;
     rerender = true;
     // Reset some submenus
-    brewScreenState = BrewScreenState::Brew;
 }
 
 void DefaultUI::changeBrewScreenMode(BrewScreenState state) {

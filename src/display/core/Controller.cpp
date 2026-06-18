@@ -42,7 +42,7 @@
 const String LOG_TAG = F("Controller");
 
 void Controller::setup() {
-    mode = settings.getStartupMode();
+    mode = MODE_STANDBY;
 
     // Web assets are served from this partition. LittleFS (not SPIFFS): SPIFFS
     // has no directory tree, so stat()/exists() is O(whole filesystem) and a
@@ -360,6 +360,7 @@ void Controller::onSystemInfo(const char *hardware, const char *version, uint32_
         if (!mismatch && settings.getStartupMode() == MODE_STANDBY)
             activateStandby();
         pluginManager->trigger("controller:ready");
+        setMode(settings.getStartupMode());
     }
     pluginManager->trigger("controller:bluetooth:connect");
 }
