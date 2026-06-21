@@ -5738,6 +5738,74 @@
               "sizeMode": "VIRTUAL"
             },
             {
+              "objID": "601ac74e-b9e1-4bf7-9552-8688a09a134f",
+              "type": "LVGLImageWidget",
+              "left": 0,
+              "top": 210,
+              "width": 40,
+              "height": 40,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "75a2fe48-2f47-438b-c001-a5d5bdef5dff",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [
+                {
+                  "objID": "97372cec-7268-4ef4-8bc8-7f6a0faed51e",
+                  "eventName": "CLICKED",
+                  "handlerType": "action",
+                  "action": "onStandby",
+                  "userData": 0
+                }
+              ],
+              "identifier": "standbyBtn",
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "content",
+              "heightUnit": "content",
+              "children": [],
+              "widgetFlags": "ADV_HITTEST|CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlag": true,
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "8fdf1cba-574c-4abf-dbb6-5171a6af472d",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "align": "CENTER",
+                      "img_recolor_opa": 255,
+                      "img_recolor": "NiceWhite"
+                    }
+                  }
+                }
+              },
+              "group": "",
+              "groupIndex": 0,
+              "image": "power-40x40",
+              "setPivot": false,
+              "pivotX": 0,
+              "pivotY": 0,
+              "zoom": 256,
+              "angle": 0,
+              "innerAlign": "CENTER",
+              "sizeMode": "VIRTUAL",
+              "value": 0,
+              "valueType": "literal",
+              "previewValue": 0
+            },
+            {
               "objID": "2cb46eed-47ce-4283-d3ff-a2a831852ddd",
               "type": "LVGLLabelWidget",
               "left": 0,
@@ -9166,6 +9234,13 @@
               "eventName": "GESTURE",
               "handlerType": "action",
               "action": "onScreenSwipe",
+              "userData": 0
+            },
+            {
+              "objID": "3bbad31e-b553-4f5c-8de1-838ce950e178",
+              "eventName": "SCREEN_LOADED",
+              "handlerType": "action",
+              "action": "onScreenLoad",
               "userData": 0
             }
           ],
@@ -13307,7 +13382,7 @@
           "eventHandlers": [
             {
               "objID": "89bb8744-d82f-40ee-d473-7a452fbbce53",
-              "eventName": "DRAW_PART_BEGIN",
+              "eventName": "DRAW_POST",
               "handlerType": "action",
               "action": "onMeterDraw",
               "userData": 0
@@ -13411,7 +13486,7 @@
           "eventHandlers": [
             {
               "objID": "c5c8fab3-17b9-4730-9cd4-dd8788b823ad",
-              "eventName": "DRAW_PART_BEGIN",
+              "eventName": "DRAW_POST",
               "handlerType": "action",
               "action": "onMeterDraw",
               "userData": 0
@@ -13515,7 +13590,7 @@
           "eventHandlers": [
             {
               "objID": "1af61e6f-bd3d-426f-fd7e-9988a4482fa4",
-              "eventName": "DRAW_PART_BEGIN",
+              "eventName": "DRAW_POST",
               "handlerType": "action",
               "action": "onMeterDraw",
               "userData": 0
@@ -13632,7 +13707,7 @@
           "heightUnit": "content",
           "children": [],
           "widgetFlags": "ADV_HITTEST|CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-          "hiddenFlag": "!system.in_menu",
+          "hiddenFlag": "!system.in_menu || minimal",
           "hiddenFlagType": "expression",
           "clickableFlag": true,
           "clickableFlagType": "literal",
@@ -13701,7 +13776,7 @@
           "heightUnit": "content",
           "children": [],
           "widgetFlags": "ADV_HITTEST|CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-          "hiddenFlag": "system.in_menu",
+          "hiddenFlag": "system.in_menu || minimal",
           "hiddenFlagType": "expression",
           "clickableFlag": true,
           "clickableFlagType": "literal",

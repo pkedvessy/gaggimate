@@ -208,6 +208,7 @@ typedef struct _objects_t {
     lv_obj_t *obj11;
     lv_obj_t *obj12;
     lv_obj_t *info_btn;
+    lv_obj_t *standby_btn;
     lv_obj_t *obj13;
     lv_obj_t *main_label5;
     lv_obj_t *image5_1;

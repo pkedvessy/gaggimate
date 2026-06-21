@@ -197,6 +197,7 @@ static const char *object_names[] = {"standby_screen",
                                      "obj11",
                                      "obj12",
                                      "info_btn",
+                                     "standby_btn",
                                      "obj13",
                                      "main_label5",
                                      "image5_1",
@@ -670,6 +671,17 @@ static void event_handler_cb_menu_screen_new_info_btn(lv_event_t *e) {
     }
 }
 
+static void event_handler_cb_menu_screen_new_standby_btn(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = lv_event_get_user_data(e);
+    (void)flowState;
+
+    if (event == LV_EVENT_CLICKED) {
+        e->user_data = (void *)0;
+        action_on_standby(e);
+    }
+}
+
 static void event_handler_cb_steam_screen_steam_screen(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = lv_event_get_user_data(e);
@@ -946,6 +958,10 @@ static void event_handler_cb_info_screen_info_screen(lv_event_t *e) {
         e->user_data = (void *)0;
         action_on_screen_swipe(e);
     }
+    if (event == LV_EVENT_SCREEN_LOADED) {
+        e->user_data = (void *)0;
+        action_on_screen_load(e);
+    }
 }
 
 static void event_handler_cb_info_screen_info_menu_icon(lv_event_t *e) {
@@ -975,7 +991,7 @@ static void event_handler_cb_dials_temp_gauge(lv_event_t *e) {
     void *flowState = lv_event_get_user_data(e);
     (void)flowState;
 
-    if (event == LV_EVENT_DRAW_PART_BEGIN) {
+    if (event == LV_EVENT_DRAW_POST) {
         e->user_data = (void *)0;
         action_on_meter_draw(e);
     }
@@ -986,7 +1002,7 @@ static void event_handler_cb_dials_temp_gauge_full(lv_event_t *e) {
     void *flowState = lv_event_get_user_data(e);
     (void)flowState;
 
-    if (event == LV_EVENT_DRAW_PART_BEGIN) {
+    if (event == LV_EVENT_DRAW_POST) {
         e->user_data = (void *)0;
         action_on_meter_draw(e);
     }
@@ -997,7 +1013,7 @@ static void event_handler_cb_dials_pressure_gauge(lv_event_t *e) {
     void *flowState = lv_event_get_user_data(e);
     (void)flowState;
 
-    if (event == LV_EVENT_DRAW_PART_BEGIN) {
+    if (event == LV_EVENT_DRAW_POST) {
         e->user_data = (void *)0;
         action_on_meter_draw(e);
     }
@@ -3061,6 +3077,20 @@ void create_screen_menu_screen_new() {
             lv_obj_set_style_img_recolor_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
         {
+            // standbyBtn
+            lv_obj_t *obj = lv_img_create(parent_obj);
+            objects.standby_btn = obj;
+            lv_obj_set_pos(obj, 0, 210);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_img_set_src(obj, &img_power_40x40);
+            lv_obj_add_event_cb(obj, event_handler_cb_menu_screen_new_standby_btn, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
+            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_img_recolor_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_img_recolor(obj, lv_color_hex(theme_colors[eez_flow_get_selected_theme_index()][0]),
+                                         LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj13 = obj;
             lv_obj_set_pos(obj, 0, -30);
@@ -3090,6 +3120,7 @@ void delete_screen_menu_screen_new() {
     objects.obj11 = 0;
     objects.obj12 = 0;
     objects.info_btn = 0;
+    objects.standby_btn = 0;
     objects.obj13 = 0;
     screen_menu_screen_new_state.new_menu_dials.scale = 0;
     screen_menu_screen_new_state.new_menu_dials.indicator = 0;
@@ -3162,7 +3193,7 @@ void tick_screen_menu_screen_new() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 13, 3, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 14, 3, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj13);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj13;
@@ -6806,6 +6837,9 @@ void change_color_theme(uint32_t theme_index) {
                                          LV_PART_MAIN | LV_STATE_DEFAULT);
         if (objects.info_btn)
             lv_obj_set_style_img_recolor(objects.info_btn, lv_color_hex(theme_colors[theme_index][0]),
+                                         LV_PART_MAIN | LV_STATE_DEFAULT);
+        if (objects.standby_btn)
+            lv_obj_set_style_img_recolor(objects.standby_btn, lv_color_hex(theme_colors[theme_index][0]),
                                          LV_PART_MAIN | LV_STATE_DEFAULT);
         if (objects.obj13)
             lv_obj_set_style_text_color(objects.obj13, lv_color_hex(theme_colors[theme_index][0]),

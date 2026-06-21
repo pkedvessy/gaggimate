@@ -417,14 +417,16 @@ void DefaultUI::setupState() {
                           &wifiConnected, &apActive);
     effect_mgr.use_effect([this]() { return currentScreen == SCREEN_ID_MENU_SCREEN_NEW; },
                           [this]() {
-                              int radius = 140;
+                              int radius = 135;
+                              int count = grindAvailable ? 4 : 3;
                               int step = 360 / (grindAvailable ? 4 : 3);
-                              int offset = grindAvailable ? 1 : 0;
-                              positionMenuIcon(objects.btn_brew_1, step * 0, radius);
-                              positionMenuIcon(objects.btn_steam_1, step * 1, radius);
-                              positionMenuIcon(objects.btn_water_1, step * 2, radius);
-                              positionMenuIcon(objects.btn_grind_1, step * 3, radius);
-                              // positionMenuIcon(objects.btn_settings_1, step * (3 + offset), radius);
+                              int iconOffset = grindAvailable ? 1 : 0;
+                              int rotationOffset = count == 4 ? 45 : 0;
+                              positionMenuIcon(objects.btn_brew_1, step * 0 - rotationOffset, radius);
+                              positionMenuIcon(objects.btn_steam_1, step * 1 - rotationOffset, radius);
+                              positionMenuIcon(objects.btn_water_1, step * 2 - rotationOffset, radius);
+                              positionMenuIcon(objects.btn_grind_1, step * 3 - rotationOffset, radius);
+                              // positionMenuIcon(objects.btn_settings_1, step * (3 + iconOffset) - rotationOffset, radius);
                           },
                           &grindAvailable);
 }
