@@ -217,7 +217,8 @@ void action_on_screen_load(lv_event_t *e) {
     applyClickArea(objects.btn_steam_1, 15);
     applyClickArea(objects.btn_water_1, 15);
     applyClickArea(objects.btn_grind_1, 15);
-    applyClickArea(objects.btn_info_1, 15);
+    applyClickArea(objects.btn_settings_1, 15);
+    applyClickArea(objects.info_btn, 15);
     applyClickArea(objects.menu_dials__standby_icon, 20);
     applyClickArea(objects.brew_dials__menu_icon, 20);
     applyClickArea(objects.status_dials__menu_icon, 20);

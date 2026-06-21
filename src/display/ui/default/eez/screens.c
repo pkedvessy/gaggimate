@@ -192,12 +192,11 @@ static const char *object_names[] = {"standby_screen",
                                      "btn_water_1",
                                      "btn_grind_1",
                                      "btn_settings_1",
-                                     "btn_info_1",
                                      "status_icons",
                                      "obj10",
                                      "obj11",
                                      "obj12",
-                                     "standby_button",
+                                     "info_btn",
                                      "obj13",
                                      "main_label5",
                                      "image5_1",
@@ -656,11 +655,11 @@ static void event_handler_cb_menu_screen_new_btn_settings_1(lv_event_t *e) {
 
     if (event == LV_EVENT_CLICKED) {
         e->user_data = (void *)0;
-        action_on_grind_screen(e);
+        action_on_info_screen(e);
     }
 }
 
-static void event_handler_cb_menu_screen_new_btn_info_1(lv_event_t *e) {
+static void event_handler_cb_menu_screen_new_info_btn(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = lv_event_get_user_data(e);
     (void)flowState;
@@ -668,17 +667,6 @@ static void event_handler_cb_menu_screen_new_btn_info_1(lv_event_t *e) {
     if (event == LV_EVENT_CLICKED) {
         e->user_data = (void *)0;
         action_on_info_screen(e);
-    }
-}
-
-static void event_handler_cb_menu_screen_new_standby_button(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = lv_event_get_user_data(e);
-    (void)flowState;
-
-    if (event == LV_EVENT_CLICKED) {
-        e->user_data = (void *)0;
-        action_on_standby(e);
     }
 }
 
@@ -2988,28 +2976,12 @@ void create_screen_menu_screen_new() {
                     // btnSettings_1
                     lv_obj_t *obj = lv_btn_create(parent_obj);
                     objects.btn_settings_1 = obj;
-                    lv_obj_set_pos(obj, -147, 85);
-                    lv_obj_set_size(obj, 120, 120);
-                    lv_obj_add_event_cb(obj, event_handler_cb_menu_screen_new_btn_settings_1, LV_EVENT_ALL, flowState);
-                    lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
-                    lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_bg_img_src(obj, &img_settings_80x80, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_bg_img_recolor(obj, lv_color_hex(theme_colors[eez_flow_get_selected_theme_index()][0]),
-                                                    LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_bg_img_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_bg_img_recolor_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_shadow_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                }
-                {
-                    // btnInfo_1
-                    lv_obj_t *obj = lv_btn_create(parent_obj);
-                    objects.btn_info_1 = obj;
                     lv_obj_set_pos(obj, -85, 117);
                     lv_obj_set_size(obj, 120, 120);
-                    lv_obj_add_event_cb(obj, event_handler_cb_menu_screen_new_btn_info_1, LV_EVENT_ALL, flowState);
+                    lv_obj_add_event_cb(obj, event_handler_cb_menu_screen_new_btn_settings_1, LV_EVENT_ALL, flowState);
+                    lv_obj_add_flag(obj, LV_OBJ_FLAG_ADV_HITTEST | LV_OBJ_FLAG_HIDDEN);
                     lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_bg_img_src(obj, &img_info_80x80, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_bg_img_src(obj, &img_settings_80x80, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_set_style_bg_img_recolor(obj, lv_color_hex(theme_colors[eez_flow_get_selected_theme_index()][0]),
                                                     LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_set_style_bg_img_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -3023,7 +2995,7 @@ void create_screen_menu_screen_new() {
             // statusIcons
             lv_obj_t *obj = lv_obj_create(parent_obj);
             objects.status_icons = obj;
-            lv_obj_set_pos(obj, 0, 0);
+            lv_obj_set_pos(obj, 0, -210);
             lv_obj_set_size(obj, 200, 20);
             lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -3075,13 +3047,13 @@ void create_screen_menu_screen_new() {
             }
         }
         {
-            // standbyButton
+            // infoBtn
             lv_obj_t *obj = lv_img_create(parent_obj);
-            objects.standby_button = obj;
-            lv_obj_set_pos(obj, 0, 50);
+            objects.info_btn = obj;
+            lv_obj_set_pos(obj, 0, 30);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-            lv_img_set_src(obj, &img_power_40x40);
-            lv_obj_add_event_cb(obj, event_handler_cb_menu_screen_new_standby_button, LV_EVENT_ALL, flowState);
+            lv_img_set_src(obj, &img_info_40x40);
+            lv_obj_add_event_cb(obj, event_handler_cb_menu_screen_new_info_btn, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
             lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_img_recolor(obj, lv_color_hex(theme_colors[eez_flow_get_selected_theme_index()][0]),
@@ -3091,7 +3063,7 @@ void create_screen_menu_screen_new() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj13 = obj;
-            lv_obj_set_pos(obj, 0, -50);
+            lv_obj_set_pos(obj, 0, -30);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[eez_flow_get_selected_theme_index()][0]),
@@ -3113,12 +3085,11 @@ void delete_screen_menu_screen_new() {
     objects.btn_water_1 = 0;
     objects.btn_grind_1 = 0;
     objects.btn_settings_1 = 0;
-    objects.btn_info_1 = 0;
     objects.status_icons = 0;
     objects.obj10 = 0;
     objects.obj11 = 0;
     objects.obj12 = 0;
-    objects.standby_button = 0;
+    objects.info_btn = 0;
     objects.obj13 = 0;
     screen_menu_screen_new_state.new_menu_dials.scale = 0;
     screen_menu_screen_new_state.new_menu_dials.indicator = 0;
@@ -3152,7 +3123,7 @@ void tick_screen_menu_screen_new() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 10, 3, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 9, 3, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.obj10, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj10;
@@ -3165,7 +3136,7 @@ void tick_screen_menu_screen_new() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 11, 3, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 10, 3, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.obj11, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj11;
@@ -3178,7 +3149,7 @@ void tick_screen_menu_screen_new() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 12, 3, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 11, 3, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.obj12, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj12;
@@ -3191,7 +3162,7 @@ void tick_screen_menu_screen_new() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 14, 3, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 13, 3, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj13);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj13;
@@ -6824,9 +6795,6 @@ void change_color_theme(uint32_t theme_index) {
         if (objects.btn_settings_1)
             lv_obj_set_style_bg_img_recolor(objects.btn_settings_1, lv_color_hex(theme_colors[theme_index][0]),
                                             LV_PART_MAIN | LV_STATE_DEFAULT);
-        if (objects.btn_info_1)
-            lv_obj_set_style_bg_img_recolor(objects.btn_info_1, lv_color_hex(theme_colors[theme_index][0]),
-                                            LV_PART_MAIN | LV_STATE_DEFAULT);
         if (objects.obj10)
             lv_obj_set_style_img_recolor(objects.obj10, lv_color_hex(theme_colors[theme_index][0]),
                                          LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -6836,8 +6804,8 @@ void change_color_theme(uint32_t theme_index) {
         if (objects.obj12)
             lv_obj_set_style_img_recolor(objects.obj12, lv_color_hex(theme_colors[theme_index][0]),
                                          LV_PART_MAIN | LV_STATE_DEFAULT);
-        if (objects.standby_button)
-            lv_obj_set_style_img_recolor(objects.standby_button, lv_color_hex(theme_colors[theme_index][0]),
+        if (objects.info_btn)
+            lv_obj_set_style_img_recolor(objects.info_btn, lv_color_hex(theme_colors[theme_index][0]),
                                          LV_PART_MAIN | LV_STATE_DEFAULT);
         if (objects.obj13)
             lv_obj_set_style_text_color(objects.obj13, lv_color_hex(theme_colors[theme_index][0]),
